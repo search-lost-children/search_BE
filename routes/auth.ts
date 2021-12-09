@@ -1,16 +1,20 @@
 import express, {NextFunction, Request, Response} from 'express';
-const router = express.Router();
-import array from "../db/users_db";
 
-router.post( '/',(req:Request, res:Response, next:NextFunction)=>{
-    const elem =req.body;
+const router = express.Router();
+import jwt from 'jsonwebtoken';
+
+router.post('/', (req: Request, res: Response, next: NextFunction) => {
+    const body = req.body;
     const el = {login: '123', password: '123'}
 
-            if(el.login=== elem.login && el.password === elem.password){
-                res.sendStatus(200)
-            }else{
-                res.sendStatus(404)
-            }
+    if (el.login === body.login && el.password === body.password) {
+
+        const token = jwt.sign({login: body.login}, 'shhhhh');
+        res.send(token)
+    } else {
+        res.sendStatus(404)
+
+    }
 
 })
 

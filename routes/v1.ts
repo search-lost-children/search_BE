@@ -1,4 +1,5 @@
 import express from 'express';
+
 const router = express.Router();
 import auth from "./auth"
 import reg from "./reg"
