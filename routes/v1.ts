@@ -1,10 +1,12 @@
 import express from 'express';
 const router = express.Router();
 import Coordinators from "./Coordinators";
+import searches from "./Searches";
 
-router.use('/coordinators', Coordinators)
 
-import searches from './searches'
+router.use('/searches/:id/coordinators', Coordinators)
+// router.use('/coordinators', Coordinators)
+
 
 router.use('/searches', searches);
 
