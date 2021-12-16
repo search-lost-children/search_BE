@@ -16,8 +16,6 @@ export async function postTableInfo(req:Request, res:Response, next:NextFunction
     res.send(tableInfo)
 }
 
-
-
 //
 // async function tableData (req:Request, res:Response, next:NextFunction) {
 //

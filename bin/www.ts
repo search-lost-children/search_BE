@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+import "reflect-metadata";
 import app from '../app';
 import debugPackage from 'debug'
 const debug = debugPackage('express:server')

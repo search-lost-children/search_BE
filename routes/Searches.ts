@@ -1,13 +1,10 @@
 import express from 'express';
-import {getSearches} from "../controllers/searches";
+import {getSearches, getSearchMiddleWare} from "../controllers/Searches";
 const router = express.Router();
-import router from './Searches'
+import coordinatorsRouter from './Coordinators'
 
 router.get('/',getSearches);
 //api/v1/searches/1/coordinators
-router.use('/:id/coordinator', (req:any, res:any, next:any) => {
-    req.search = {a:'hello'};
-    console.log('/:id/test')
-    next()
-}, router2)
+router.use('/:id/coordinators', getSearchMiddleWare, coordinatorsRouter)
+
 export default router;
