@@ -1,10 +1,13 @@
 import {MigrationInterface, QueryRunner, Table, TableIndex, TableColumn, TableForeignKey } from "typeorm";
 
+const tableName = "coordinator"
+const searchTableName = "search"
+
 export class Coordinators1639504404957 implements MigrationInterface {
 
     async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "Coordinators",
+            name: tableName,
             columns: [
                 {
                     name: "id",
@@ -26,10 +29,10 @@ export class Coordinators1639504404957 implements MigrationInterface {
             ]
         }), true)
 
-        await queryRunner.createForeignKey("Coordinators", new TableForeignKey({
+        await queryRunner.createForeignKey(tableName, new TableForeignKey({
             columnNames: ["searchId"],
             referencedColumnNames: ["id"],
-            referencedTableName: "Searches",
+            referencedTableName: searchTableName,
             onDelete: "CASCADE"
         }));
 
@@ -41,10 +44,14 @@ export class Coordinators1639504404957 implements MigrationInterface {
     }
 
     async down(queryRunner: QueryRunner): Promise<void> {
-        const table = await queryRunner.getTable("Coordinators");
-        const foreignKey = table.foreignKeys.find(fk => fk.columnNames.indexOf("searchId") !== -1);
-        await queryRunner.dropTable("Coordinators");
-        await queryRunner.dropForeignKey("Coordinators", foreignKey);
+        const table = await queryRunner.getTable(tableName);
+        if(table) {
+            const foreignKey = table.foreignKeys.find(fk => fk.columnNames.indexOf("searchId") !== -1);
+            if (foreignKey) {
+                await queryRunner.dropTable(tableName);
+                await queryRunner.dropForeignKey(tableName, foreignKey);
+            }
+        }
     }
 
 }

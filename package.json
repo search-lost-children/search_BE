@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run",
+    "migration:down": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert"
+  },
   "dependencies": {
     "@types/cookie-parser": "^1.4.2",
     "@types/debug": "^4.1.7",

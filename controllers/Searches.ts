@@ -1,5 +1,7 @@
-import {NextFunction, Response, Request} from "express";
+import {NextFunction, Response, Request} from "Express";
+import {createConnection, getConnection} from "typeorm"
 import idValidationSchema from "../schemas/SearchesIdValidation";
+import Search from "../src/entity/Search";
 
 let table: any[] = [{
     "id": 1,
@@ -26,7 +28,14 @@ let table: any[] = [{
         'status': 'завершен',
     }]
 
-export function getSearches(req: Request, res: Response, next: NextFunction) {
+export async function getSearches(req: Request, res: Response, next: NextFunction) {
+    let connection;
+    try {
+        connection = getConnection();
+    } catch {
+        connection = await createConnection()
+    }
+    table = await connection.manager.find(Search)
     res.send(table)
 }
 
@@ -40,12 +49,20 @@ async function findSearch(id:string):Promise<object | undefined> {
 }
 
 export async function getSearchMiddleWare(req: Request, res: Response, next: NextFunction) {
-    const validationResult = idValidationSchema.validate(req.params.id)
+    const validationResult = idValidationSchema.validate(req.params)
     if (validationResult.error){
         res.sendStatus(400)
     }
     else{
-        const search = findSearch(req.params.id)
+        let connection;
+        try {
+            connection = getConnection();
+        } catch {
+            connection = await createConnection()
+        }
+        const repo = await connection.getRepository(Search);
+
+        const search = await  repo.find({relations: ['coordinators'], where: {id: req.params.id}})
         if(!search) {
             res.sendStatus(404)
         }

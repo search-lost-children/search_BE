@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {createConnection} from "typeorm";
 
 /**
  * Module dependencies.
@@ -8,7 +9,7 @@ import app from '../app';
 import debugPackage from 'debug'
 const debug = debugPackage('express:server')
 import http from 'http';
-
+createConnection()
 /**
  * Get port from environment and store in Express.
  */

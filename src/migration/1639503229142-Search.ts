@@ -1,10 +1,12 @@
 import {MigrationInterface, QueryRunner, Table, TableIndex, TableColumn, TableForeignKey } from "typeorm";
 
-export class Searches1639503229142 implements MigrationInterface {
+const tableName = "search"
+
+export class Search1639503229142 implements MigrationInterface {
 
     async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "Searches",
+            name: tableName,
             columns: [
                 {
                     name: "id",
@@ -34,6 +36,6 @@ export class Searches1639503229142 implements MigrationInterface {
     }
 
     async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("Searches");
+        await queryRunner.dropTable(tableName);
     }
 }
