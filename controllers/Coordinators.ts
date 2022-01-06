@@ -1,7 +1,7 @@
 import {Request, Response, NextFunction} from "express";
 import tableSchema from "../schemas/Coordinators";
 
-let tableInfo:any[] = ["go home"]
+let tableInfo:any[] =
 
 
 
