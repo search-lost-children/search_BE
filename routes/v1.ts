@@ -1,14 +1,14 @@
 import express from 'express';
-
-const router = express.Router();
+import {authGuard} from '../controllers/autorization'
 import auth from "./auth"
 import reg from "./reg"
+import searches from './searches'
+
+const router = express.Router();
 
 router.use('/auth', auth)
 router.use('/reg', reg)
-
-import searches from './searches'
-
+router.use(authGuard);//below the line routes protected by authGuard
 router.use('/searches', searches);
 
 export default router
