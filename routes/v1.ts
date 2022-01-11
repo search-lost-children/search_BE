@@ -1,8 +1,10 @@
 import express from 'express';
 const router = express.Router();
+import Coordinators from "./Coordinators";
+import searches from "./Searches";
 
-import searches from './searches'
 
 router.use('/searches', searches);
+
 
 export default router

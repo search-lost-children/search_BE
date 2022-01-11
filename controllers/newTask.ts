@@ -11,6 +11,5 @@ export function createNewTask(req: Request, res: Response, next: NextFunction) {
         return;
     }
     res.send(result.value)
-
 }
 export default createNewTask;
