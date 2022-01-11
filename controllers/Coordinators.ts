@@ -19,6 +19,19 @@ export async function postTableInfo(req:Request, res:Response, next:NextFunction
     res.send(body)
 }
 
+export async function deleteCoordinator(req:Request, res:Response, next:NextFunction){
+    const repository = getConnection().getRepository(Coordinator);
+    await getConnection()
+    repository.createQueryBuilder()
+    repository.delete()
+    repository.from(Coordinator)
+    repository.where("id = :id", { id: 1 })
+    repository.execute();
+}
+
+
+
+
 //
 // async function tableData (req:Request, res:Response, next:NextFunction) {
 //
