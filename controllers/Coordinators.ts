@@ -15,8 +15,6 @@ export async function getTableInfo(req:Request, res:Response, next:NextFunction)
 export async function postTableInfo(req:Request, res:Response, next:NextFunction){
     const repository = getConnection().getRepository(Coordinator);
     const body = req.body
-    const coord = new Coordinator()
-        .
     await repository.save(body)
     res.send(body)
 }
