@@ -1,10 +1,11 @@
 import express from 'express';
+const router = express.Router();
+
 import {authGuard} from '../controllers/autorization'
 import auth from "./auth"
 import reg from "./reg"
-import searches from './searches'
 
-const router = express.Router();
+import searches from './searches'
 
 router.use('/auth', auth)
 router.use('/reg', reg)
