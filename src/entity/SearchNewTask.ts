@@ -10,10 +10,17 @@ export class SearchNewTask extends BaseEntity{
     id: number;
 
     @Column()
-    searchResource: string;
+    taskType: string;
 
     @Column()
-    searchAddress: string;
+    locationType: string;
+
+    @Column()
+    location: string;
+
+    @Column()
+    executorId: string;
+
 
     @ManyToOne(() => Search, search => search.tasks)
     search: Search;
