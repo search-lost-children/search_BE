@@ -1,9 +1,7 @@
 import {NextFunction, Response, Request} from "express";
-import router from "../routes/tasks";
 import schema from "../validationSchemas/newTask"
-import {isError} from "joi";
 import {getConnection} from "typeorm";
-import SearchNewTask from "../src/entity/SearchNewTask";
+import Task from "../src/entity/Task";
 import Search from "../src/entity/Search";
 
 export async function createNewTask(req: Request, res: Response, next: NextFunction) {
@@ -14,19 +12,25 @@ export async function createNewTask(req: Request, res: Response, next: NextFunct
         return;
     }
 
-        const repository = getConnection().getRepository(SearchNewTask);
-        const body = req.body
+    const repository = getConnection().getRepository(Task);
+    const body = req.body
 
-    const task = new SearchNewTask()
+    const task = new Task()
     task.locationType = body.locationType
     task.taskType= body.taskType
     task.search = req.search as Search
-    await repository.save(task)
+    task.location = body.location
+    task.executorId = body.executorId
+    try {
+        await repository.save(task)
+    } catch (e) {
+        debugger
+    }
     res.send (task)
 }
 
 export async function getSearchTasks (req: Request, res: Response, next: NextFunction){
-    const repository = getConnection().getRepository(SearchNewTask);
+    const repository = getConnection().getRepository(Task);
     const tableInfo = await repository.find({ where: { search: req.search} });
     res.send(tableInfo)
     console.log(req)

@@ -4,14 +4,14 @@
     "port": 5432,
     "username": "postgres",
     "password": "Qwerty123",
-    "database": "js21-1",
+    "database": "js21-1S",
     "synchronize": true,
     "logging": false,
     "entities": [
-        "src/entity/**/*.ts"
+        "src/entity/**/*{.ts,.js}"
     ],
     "migrations": [
-        "src/migration/**/*.ts"
+        "src/migration/**/*{.ts,.js}"
     ],
     "cli": { "migrationsDir": "src/migration" }
 }

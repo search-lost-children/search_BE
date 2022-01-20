@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typeorm";
 import Coordinator from "./Coordinator";
-import SearchNewTask from "./SearchNewTask";
+import Task from "./Task";
 
 
 @Entity()
@@ -9,7 +9,9 @@ export class Search extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: "date"
+    })
     date: Date;
 
     @Column()
@@ -21,8 +23,8 @@ export class Search extends BaseEntity{
     @OneToMany(() => Coordinator, coordinator => coordinator.search)
     coordinators: Coordinator[];
 
-    @OneToMany(() => SearchNewTask, task => task.search)
-    tasks: SearchNewTask[];
+    @OneToMany(() => Task, task => task.search)
+    tasks: Task[];
 }
 
 export default Search

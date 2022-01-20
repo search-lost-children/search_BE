@@ -6,9 +6,9 @@ const schema = Joi.object({
         .required(),
     locationType: Joi.string()
         .required(),
-    location: Joi.string()
+    location: Joi.array().items(Joi.string())
         .required(),
-    executorId: Joi.array().items(Joi.string())
+    executorId: Joi.string()
         .required(),
 })
 export default schema;

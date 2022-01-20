@@ -19,11 +19,11 @@ export class Search1639503229142 implements MigrationInterface {
                 },
                 {
                     name: "firstName",
-                    type: "TEXT",
+                    type: "varchar",
                 },
                 {
                     name: "lastName",
-                    type: "TEXT",
+                    type: "varchar",
                 }
             ]
         }), true)

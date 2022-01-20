@@ -4,7 +4,7 @@ import Search from "./Search";
 
 
 @Entity()
-export class SearchNewTask extends BaseEntity{
+export class Task extends BaseEntity{
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -26,4 +26,4 @@ export class SearchNewTask extends BaseEntity{
     search: Search;
 }
 
-export default SearchNewTask
+export default Task
