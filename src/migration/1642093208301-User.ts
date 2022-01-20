@@ -1,23 +1,22 @@
 import {MigrationInterface, QueryRunner, Table, TableColumn} from "typeorm";
 import Roles from "../enums/roles.enum"
 
-const tableName = "users"
+const tableName = "user";
 
 export class user1642093208301 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.createTable(new Table({
+        const table = new Table({
             name: tableName,
             columns: [
                 new TableColumn({
-                        name: 'id',
-                        type: 'integer',
-                        isPrimary: true,
-                        isGenerated: true,
-                        isUnique: true,
-                        generationStrategy: 'increment'
-                    }
-                ),
+                    name: 'id',
+                    type: 'integer',
+                    isPrimary: true,
+                    isGenerated: true,
+                    isUnique: true,
+                    generationStrategy: 'increment'
+                }),
                 new TableColumn({
                     name: 'login',
                     type: 'varchar',
@@ -45,16 +44,17 @@ export class user1642093208301 implements MigrationInterface {
                     enum: Object.values(Roles)
                 }),
                 new TableColumn({
+                    isNullable:true,
                     name:'phoneNumber',
                     type: 'varchar'
                 })
             ]
-        }), true)
+        });
 
+        await queryRunner.createTable(table)
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable(tableName);
     }
-
 }

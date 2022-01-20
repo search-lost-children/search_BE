@@ -3,7 +3,7 @@ import Roles from "../enums/roles.enum";
 
 
 @Entity()
-export class Users extends BaseEntity{
+export class User{
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -20,12 +20,17 @@ export class Users extends BaseEntity{
     @Column()
     lastName: string;
 
-    @Column()
+    @Column({
+        type: 'enum',
+        enum: Roles,
+    })
     role: Roles;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     phoneNumber: string;
 
 }
 
-export default Users
+export default User

@@ -7,8 +7,12 @@ const newUser = joi.object({
 
     password: joi.string()
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+    firstName:joi.string()
+        .min(2)
+        .max(30),
+    lastName:joi.string()
+        .max(30),
 
-    repeat_password: joi.ref('password'),
 })
 
 export default newUser
