@@ -19,6 +19,32 @@ export class Search extends BaseEntity{
 
     @OneToMany(() => Coordinator, coordinator => coordinator.search)
     coordinators: Coordinator[];
+
+    @Column({
+        nullable: true
+    })
+    coordLat:string;
+
+    @Column({
+        nullable: true
+    })
+    coordLong:string;
+
+    @Column({
+        nullable: true
+    })
+    address:string;
+
+    @Column({
+        nullable: true
+    })
+    info: string;
+
+    @Column({
+        type: "bytea",
+        nullable: true
+    })
+    photo: Buffer;
 }
 
 export default Search

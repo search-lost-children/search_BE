@@ -39,15 +39,6 @@ export async function getSearches(req: Request, res: Response, next: NextFunctio
     res.send(table)
 }
 
-async function findSearch(id:string):Promise<object | undefined> {
-    const rand = Math.random()
-    if (rand > 0.5) {
-        return undefined
-    } else {
-        return {}
-    }
-}
-
 export async function getSearchMiddleWare(req: Request, res: Response, next: NextFunction) {
     const validationResult = idValidationSchema.validate(req.params)
     if (validationResult.error){
@@ -73,6 +64,17 @@ export async function getSearchMiddleWare(req: Request, res: Response, next: Nex
     }
 }
 
-
-
-
+export async function createNewSearch(req: Request, res: Response, next: NextFunction) {
+    // const validationResult = idValidationSchema.validate(req.params)
+    // if (validationResult.error){
+    //     res.sendStatus(400)
+    // }
+    // else{
+    //     let connection;
+    //     try {
+    //         connection = getConnection();
+    //     } catch {
+    //         connection = await createConnection()
+    //     }
+    // }
+}
