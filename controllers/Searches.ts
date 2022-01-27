@@ -2,13 +2,14 @@ import {NextFunction, Response, Request} from "Express";
 import {createConnection, getConnection} from "typeorm"
 import idValidationSchema from "../schemas/SearchesIdValidation";
 import Search from "../src/entity/Search";
+import newSearchValidation from "../schemas/NewSearch";
 
 let table: any[] = [{
     "id": 1,
     'firstName': 'Ada',
     'lastName': 'Lovelace',
     'status': 'в процессе',
-    },
+},
     {
         "id": 2,
         'firstName': 'Grace',
@@ -41,10 +42,9 @@ export async function getSearches(req: Request, res: Response, next: NextFunctio
 
 export async function getSearchMiddleWare(req: Request, res: Response, next: NextFunction) {
     const validationResult = idValidationSchema.validate(req.params)
-    if (validationResult.error){
+    if (validationResult.error) {
         res.sendStatus(400)
-    }
-    else{
+    } else {
         let connection;
         try {
             connection = getConnection();
@@ -53,11 +53,10 @@ export async function getSearchMiddleWare(req: Request, res: Response, next: Nex
         }
         const repo = await connection.getRepository(Search);
 
-        const search = await  repo.find({relations: ['coordinators'], where: {id: req.params.id}})
-        if(!search) {
+        const search = await repo.find({relations: ['coordinators'], where: {id: req.params.id}})
+        if (!search) {
             res.sendStatus(404)
-        }
-        else{
+        } else {
             req.search = search
             next()
         }
@@ -65,16 +64,20 @@ export async function getSearchMiddleWare(req: Request, res: Response, next: Nex
 }
 
 export async function createNewSearch(req: Request, res: Response, next: NextFunction) {
-    // const validationResult = idValidationSchema.validate(req.params)
-    // if (validationResult.error){
-    //     res.sendStatus(400)
-    // }
-    // else{
-    //     let connection;
-    //     try {
-    //         connection = getConnection();
-    //     } catch {
-    //         connection = await createConnection()
-    //     }
-    // }
+    const validation = newSearchValidation.validate(req.body)
+    if (validation.error) {
+        res.sendStatus(400)
+    }
+    const newSearch = new Search();
+    newSearch.firstName = req.body.firstName;
+    newSearch.lastName = req.body.lastName;
+    newSearch.coordLat = req.body.coordinates.latitude;
+    newSearch.coordLong = req.body.coordinates.longitude;
+    newSearch.address = req.body.address;
+    newSearch.info = req.body.info;
+    newSearch.photo = req.body.photo;
+
+    const repository = getConnection().getRepository(Search);
+    await repository.save(newSearch);
+    res.send(newSearch);
 }
