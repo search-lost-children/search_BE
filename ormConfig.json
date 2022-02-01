@@ -4,8 +4,8 @@
     "port": 5432,
     "username": "postgres",
     "password": "Qwerty123",
-    "database": "js21-1",
-    "synchronize": true,
+    "database": "js21",
+    "synchronize": false,
     "logging": false,
     "entities": [
         "src/entity/**/*.ts"
