@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typeorm";
 import Coordinator from "./Coordinator";
+import Event from "./Event";
 
 
 @Entity()
@@ -19,6 +20,9 @@ export class Search extends BaseEntity{
 
     @OneToMany(() => Coordinator, coordinator => coordinator.search)
     coordinators: Coordinator[];
+
+    @OneToMany(() => Event, event => event.search)
+    events: Event[];
 
     @Column({
         nullable: true

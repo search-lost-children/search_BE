@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table, TableColumn} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey} from "typeorm";
 
 export class createEvents1643732480820 implements MigrationInterface {
 
@@ -7,8 +7,20 @@ export class createEvents1643732480820 implements MigrationInterface {
             name: "event",
             columns: [
                 new TableColumn({
+                    name: 'id',
+                    type: 'integer',
+                    isPrimary: true,
+                    isGenerated: true,
+                    isUnique: true,
+                    generationStrategy: 'increment'
+                }),
+                new TableColumn({
+                    name: "searchId",
+                    type: "integer"
+                }),
+                new TableColumn({
                     name: "priority",
-                    type: "number"
+                    type: "integer"
                 }),
                 new TableColumn({
                     name: "time",
@@ -24,10 +36,34 @@ export class createEvents1643732480820 implements MigrationInterface {
                 }),
             ]
         }))
+
+        await queryRunner.createForeignKey('event', new TableForeignKey({
+            columnNames: ["authorId"],
+            referencedColumnNames: ["id"],
+            referencedTableName: 'user',
+            onDelete: "CASCADE"
+        }));
+
+        await queryRunner.createForeignKey('event', new TableForeignKey({
+            columnNames: ["searchId"],
+            referencedColumnNames: ["id"],
+            referencedTableName: 'search',
+            onDelete: "CASCADE"
+        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("event");
+        const table = await queryRunner.getTable("event");
+        if(table) {
+            const foreignKeyA = table.foreignKeys.find(fk => fk.columnNames.indexOf("authorId") !== -1);
+            if (foreignKeyA) {
+                await queryRunner.dropForeignKey("event", foreignKeyA);
+            }
+            const foreignKeyS = table.foreignKeys.find(fk => fk.columnNames.indexOf("searchId") !== -1);
+            if (foreignKeyS) {
+                await queryRunner.dropForeignKey("event", foreignKeyS);
+            }
+            await queryRunner.dropTable("event");
+        }
     }
-
 }

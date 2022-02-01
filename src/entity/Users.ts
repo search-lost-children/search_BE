@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typeorm";
 import Roles from "../enums/roles.enum";
+import Event from "./Event";
 
 
 @Entity()
@@ -32,6 +33,9 @@ export class User{
         nullable: true
     })
     phoneNumber: string;
+
+    @OneToMany(() => Event, event => event.author)
+    events: Event[];
 
 }
 

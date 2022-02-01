@@ -4,7 +4,7 @@
     "port": 5432,
     "username": "postgres",
     "password": "Qwerty123",
-    "database": "js21-1",
+    "database": "js21-1Y",
     "synchronize": false,
     "logging": false,
     "entities": [
