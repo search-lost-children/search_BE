@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import {createConnection} from "typeorm";
+require('dotenv').config()
 
+import {createConnection} from "typeorm";
 /**
  * Module dependencies.
  */
