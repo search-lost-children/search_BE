@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import {createConnection} from "typeorm";
+require('dotenv').config()
 
+import {createConnection} from "typeorm";
 /**
  * Module dependencies.
  */
@@ -9,84 +10,89 @@ import app from '../app';
 import debugPackage from 'debug'
 const debug = debugPackage('express:server')
 import http from 'http';
-createConnection()
-/**
- * Get port from environment and store in Express.
- */
+debug.enabled = process.env.env !== 'prod'
 
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+createConnection().then(()=> {
+    /**
+     * Get port from environment and store in Express.
+     */
 
-/**
- * Create HTTP server.
- */
+    const port = normalizePort(process.env.PORT || '3000');
+    app.set('port', port);
 
-const server = http.createServer(app);
+    /**
+     * Create HTTP server.
+     */
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+    const server = http.createServer(app);
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+    /**
+     * Listen on provided port, on all network interfaces.
+     */
 
-/**
- * Normalize a port into a number, string, or false.
- */
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
 
-function normalizePort(val:string) {
-    const port = parseInt(val, 10);
+    /**
+     * Normalize a port into a number, string, or false.
+     */
 
-    if (isNaN(port)) {
-        // named pipe
-        return val;
+    function normalizePort(val:string) {
+        const port = parseInt(val, 10);
+
+        if (isNaN(port)) {
+            // named pipe
+            return val;
+        }
+
+        if (port >= 0) {
+            // port number
+            return port;
+        }
+
+        return false;
     }
 
-    if (port >= 0) {
-        // port number
-        return port;
-    }
+    /**
+     * Event listener for HTTP server "error" event.
+     */
 
-    return false;
-}
-
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError(error:any) {
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
-
-    const bind = typeof port === 'string'
-        ? 'Pipe ' + port
-        : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-        default:
+    function onError(error:any) {
+        if (error.syscall !== 'listen') {
             throw error;
+        }
+
+        const bind = typeof port === 'string'
+            ? 'Pipe ' + port
+            : 'Port ' + port;
+
+        // handle specific listen errors with friendly messages
+        switch (error.code) {
+            case 'EACCES':
+                console.error(bind + ' requires elevated privileges');
+                process.exit(1);
+                break;
+            case 'EADDRINUSE':
+                console.error(bind + ' is already in use');
+                process.exit(1);
+                break;
+            default:
+                throw error;
+        }
     }
-}
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+    /**
+     * Event listener for HTTP server "listening" event.
+     */
 
-function onListening() {
-    const addr = server.address();
-    const bind = typeof addr === 'string'
-        ? 'pipe ' + addr
-        : 'port ' + addr?.port;
-    debug('Listening on ' + bind);
-}
+    function onListening() {
+        const addr = server.address();
+        const bind = typeof addr === 'string'
+            ? 'pipe ' + addr
+            : 'port ' + addr?.port;
+        debug('Listening on ' + bind);
+    }
+}, (e) => {
+    debug('Error during establishing connection to DB.', e)
+})

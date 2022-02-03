@@ -1,15 +1,12 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from '@node-rs/bcrypt';
 
 export const Encrypt = {
 
-    cryptPassword: (password: string) =>
-        bcrypt.genSalt(10)
-            .then((salt => bcrypt.hash(password, salt)))
-            .then(hash => hash),
+    cryptPassword: async (password: string):Promise<string> =>
+        bcrypt.hash(password, 10),
 
     comparePassword: (password: string, hashPassword: string) =>
-        bcrypt.compare(password, hashPassword)
-            .then(resp => resp)
+        bcrypt.verify(password, hashPassword)
 
 }
 export default Encrypt
