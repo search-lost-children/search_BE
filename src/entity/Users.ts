@@ -29,7 +29,7 @@ export class User{
     role: Roles;
 
     @Column({
-        nullable: true
+        nullable: false
     })
     phoneNumber: string;
 

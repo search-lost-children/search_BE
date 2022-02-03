@@ -44,7 +44,7 @@ export class user1642093208301 implements MigrationInterface {
                     enum: Object.values(Roles)
                 }),
                 new TableColumn({
-                    isNullable:true,
+                    isNullable:false,
                     name:'phoneNumber',
                     type: 'varchar'
                 })
