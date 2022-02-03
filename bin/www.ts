@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import {createConnection} from "typeorm";
+require('dotenv').config()
 
+import {createConnection} from "typeorm";
 /**
  * Module dependencies.
  */
@@ -9,6 +10,8 @@ import app from '../app';
 import debugPackage from 'debug'
 const debug = debugPackage('express:server')
 import http from 'http';
+debug.enabled = process.env.env !== 'prod'
+
 createConnection().then(()=> {
     /**
      * Get port from environment and store in Express.
@@ -30,6 +33,10 @@ createConnection().then(()=> {
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
+
+    /**
+     * Normalize a port into a number, string, or false.
+     */
 
     function normalizePort(val:string) {
         const port = parseInt(val, 10);
@@ -86,13 +93,6 @@ createConnection().then(()=> {
             : 'port ' + addr?.port;
         debug('Listening on ' + bind);
     }
-}, (e)=> {
-    console.warn(e)
+}, (e) => {
+    debug('Error during establishing connection to DB.', e)
 })
-
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-
