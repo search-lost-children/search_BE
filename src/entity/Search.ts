@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typeorm";
 import Coordinator from "./Coordinator";
-
+import Coordinates from "./Coordinates";
 
 @Entity()
 export class Search extends BaseEntity{
@@ -19,6 +19,9 @@ export class Search extends BaseEntity{
 
     @OneToMany(() => Coordinator, coordinator => coordinator.search)
     coordinators: Coordinator[];
+
+    @OneToMany(() => Coordinates, coordinates => coordinates.search)
+    coordinates: Coordinates[];
 }
 
 export default Search
