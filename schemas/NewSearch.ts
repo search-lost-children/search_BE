@@ -3,6 +3,7 @@ const Joi = require('joi')
 const newSearchValidation = Joi.alternatives().try({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
+        date: Joi.date().required(),
         coordinates:{
             latitude: Joi.number().required(),
             longitude: Joi.number().required()
@@ -14,6 +15,7 @@ const newSearchValidation = Joi.alternatives().try({
     {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
+        date: Joi.date().required(),
         coordinates:{
             latitude: Joi.number().optional(),
             longitude: Joi.number().optional()

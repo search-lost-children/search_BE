@@ -71,6 +71,7 @@ export async function createNewSearch(req: Request, res: Response, next: NextFun
     const newSearch = new Search();
     newSearch.firstName = req.body.firstName;
     newSearch.lastName = req.body.lastName;
+    newSearch.date = req.body.date;
     newSearch.coordLat = req.body.coordinates.latitude;
     newSearch.coordLong = req.body.coordinates.longitude;
     newSearch.address = req.body.address;
@@ -79,5 +80,6 @@ export async function createNewSearch(req: Request, res: Response, next: NextFun
 
     const repository = getConnection().getRepository(Search);
     await repository.save(newSearch);
+
     res.send(newSearch);
 }
