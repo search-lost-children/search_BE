@@ -6,18 +6,18 @@
     "migration:create": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:create -n create_events"
   },
   "dependencies": {
+    "@node-rs/bcrypt": "^1.5.5",
     "@types/cookie-parser": "^1.4.2",
     "@types/debug": "^4.1.7",
     "@types/morgan": "^1.9.3",
-    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^8.6.0",
     "export": "^0.1.337",
     "express": "^4.17.1",
     "joi": "^17.5.0",
-    "joy": "^0.1.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
     "pg": "^8.7.1",
@@ -31,6 +31,7 @@
     "@types/express": "^4.17.13",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.6",
+    "@types/node": "^17.0.14",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
   }
