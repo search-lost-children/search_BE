@@ -11,6 +11,9 @@ import debugPackage from 'debug'
 const debug = debugPackage('express:server')
 import http from 'http';
 createConnection()
+
+debug.enabled = process.env.env !== 'prod'
+
 /**
  * Get port from environment and store in Express.
  */
