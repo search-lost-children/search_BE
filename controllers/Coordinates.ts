@@ -1,16 +1,25 @@
 import {Request, Response, NextFunction} from "express";
 import tableSchema from "../schemas/Coordinators";
 import {getConnection} from "typeorm";
-import Coordinator from "../src/entity/Coordinator";
+import Coordinates from "../src/entity/Coordinates";
 import Search from "../src/entity/Search";
-
+import User from "../src/entity/Users";
 
 export async function coordinatesDelivery (req:Request, res:Response, next:NextFunction){
-    const repository = getConnection().getRepository(Coordinator);
+    const repository = getConnection().getRepository(Coordinates);
     const body = req.body
-    await repository.save(body)
-    res.send(body)
+    const search = req.search as Search
+    const user = req.user as User
+    let coordinates = new Coordinates()
+    coordinates.lng = body.longitude
+    coordinates.lat = body.latitude
+    coordinates.searchId = search.id
+    coordinates.userId = user.id
+    coordinates.time =  new Date()
 
+    await repository.save(coordinates)
+
+    res.send(body)
 }
 
 
