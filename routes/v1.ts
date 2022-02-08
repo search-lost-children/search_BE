@@ -8,7 +8,7 @@ import reg from "./Registration"
 import searches from './Searches'
 
 router.use('/auth', auth)
-router.use('/reg', reg)
+router.use('/registration', reg)
 router.use(authGuard);//below the line routes protected by authGuard
 router.use('/searches', searches);
 
