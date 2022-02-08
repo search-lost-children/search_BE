@@ -16,10 +16,10 @@ const newSearchValidation = Joi.alternatives().try({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         date: Joi.date().required(),
-        coordinates:{
+        coordinates: Joi.object({
             latitude: Joi.number().optional(),
             longitude: Joi.number().optional()
-        },
+        }).optional(),
         address: Joi.string().required(),
         info: Joi.string().required(),
         photo: Joi.string().required()

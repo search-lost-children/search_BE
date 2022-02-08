@@ -3,6 +3,7 @@ import {createConnection, getConnection} from "typeorm"
 import idValidationSchema from "../schemas/SearchesIdValidation";
 import Search from "../src/entity/Search";
 import newSearchValidation from "../schemas/NewSearch";
+import Event from "../src/entity/Event";
 
 let table: any[] = [{
     "id": 1,
@@ -53,7 +54,7 @@ export async function getSearchMiddleWare(req: Request, res: Response, next: Nex
         }
         const repo = await connection.getRepository(Search);
 
-        const search = await repo.find({relations: ['coordinators'], where: {id: req.params.id}})
+        const search = await repo.findOne({relations: ['coordinators'], where: {id: req.params.id}})
         if (!search) {
             res.sendStatus(404)
         } else {
@@ -66,7 +67,9 @@ export async function getSearchMiddleWare(req: Request, res: Response, next: Nex
 export async function createNewSearch(req: Request, res: Response, next: NextFunction) {
     const validation = newSearchValidation.validate(req.body)
     if (validation.error) {
-        res.sendStatus(400)
+        res.statusCode = 400;
+        res.send(validation.error)
+        return
     }
     const newSearch = new Search();
     newSearch.firstName = req.body.firstName;
@@ -82,4 +85,11 @@ export async function createNewSearch(req: Request, res: Response, next: NextFun
     await repository.save(newSearch);
 
     res.send(newSearch);
+}
+
+export async function getSearch (req: Request, res: Response, next: NextFunction) {
+    const repository = getConnection().getRepository(Search);
+    const searchInfo = await repository.findOne(req.params.id);
+    res.send(searchInfo)
+    console.log(req)
 }

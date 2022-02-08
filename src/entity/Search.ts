@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typeorm";
 import Coordinator from "./Coordinator";
 import Event from "./Event";
-
+import Coordinates from "./Coordinates";
 
 @Entity()
 export class Search extends BaseEntity{
@@ -49,6 +49,9 @@ export class Search extends BaseEntity{
         nullable: true
     })
     photo: Buffer;
+
+    @OneToMany(() => Coordinates, coordinates => coordinates.search)
+    coordinates: Coordinates[];
 }
 
 export default Search

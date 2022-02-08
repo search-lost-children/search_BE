@@ -1,6 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typeorm";
 import Roles from "../enums/roles.enum";
 import Event from "./Event";
+import Coordinates from "./Coordinates";
 
 
 @Entity()
@@ -30,12 +31,15 @@ export class User{
     role: Roles;
 
     @Column({
-        nullable: true
+        nullable: false
     })
     phoneNumber: string;
 
     @OneToMany(() => Event, event => event.author)
     events: Event[];
+
+    @OneToMany(() => Coordinates, coordinates => coordinates.user)
+    coordinates: Coordinates[];
 
 }
 
