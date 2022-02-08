@@ -62,7 +62,7 @@ export async function getSearchMiddleWare(req: Request, res: Response, next: Nex
         }
         const repo = await connection.getRepository(Search);
 
-        const search = await  repo.find({relations: ['coordinators'], where: {id: req.params.id}})
+        const search = await  repo.findOne({relations: ['coordinators'], where: {id: req.params.id}})
         if(!search) {
             res.sendStatus(404)
         }
