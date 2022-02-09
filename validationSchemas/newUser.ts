@@ -12,6 +12,8 @@ const newUser = joi.object({
     lastName:joi.string()
         .optional()
         .max(30),
+    phoneNumber:joi.string()
+        .pattern(new RegExp('^[0][0-9]{9}$')),
 
 })
 

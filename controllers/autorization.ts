@@ -1,7 +1,8 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
 import {NextFunction, Request, Response} from "express";
-import {getConnection} from "typeorm";
+import {getConnection, QueryFailedError} from "typeorm";
 import User from "../src/entity/Users";
+import Users from "../src/entity/Users";
 import Encrypt from "../services/hash";
 
 const jwtKey = 'asdasdqwdseragasdfzxfvweg'
@@ -26,25 +27,25 @@ async function auth(req: Request, res: Response, next: NextFunction) {
         res.sendStatus(401)
 
     } else if (await Encrypt.comparePassword(body.password, userBd.password)){
-
-        const token = sign({login: body.login, isAuthenticated: true});
-        res.send(token)
+        const token = sign({login: body.login, role: userBd.role, isAuthenticated: true });
+        const answer = {token: token, login: body.login, role: userBd.role, isAuthenticated: true}
+        res.send(answer)
     } else {
         res.sendStatus(401)
     }
 }
 
-function authGuard(req: Request, res: Response, next: NextFunction) {
+async function authGuard(req: Request, res: Response, next: NextFunction) {
     const token = req.header('Authorization');
+    const repository = getConnection().getRepository(Users);
     if (!token || token === 'null') {
         return res.sendStatus(401);
     }
     try {
         const decoded = decode(token);
         if (decoded.isAuthenticated) {
-            req.user = {
-                login: decoded.login,
-            }
+            const user = await repository.findOne(decoded.login)
+            req.user = user
             return next()
         } else {
             return res.sendStatus(401)
