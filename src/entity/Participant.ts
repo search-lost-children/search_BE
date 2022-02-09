@@ -17,5 +17,8 @@ export class Participant extends BaseEntity{
         default: true
     })
     accessAllowed: boolean;
+
+    @Column()
+    userId:number
 }
 export default Event

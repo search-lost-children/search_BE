@@ -4,6 +4,8 @@ import idValidationSchema from "../schemas/SearchesIdValidation";
 import Search from "../src/entity/Search";
 import newSearchValidation from "../schemas/NewSearch";
 import Event from "../src/entity/Event";
+import {isArray} from "util";
+import User from "../src/entity/Users";
 
 let table: any[] = [{
     "id": 1,
@@ -31,14 +33,50 @@ let table: any[] = [{
     }]
 
 export async function getSearches(req: Request, res: Response, next: NextFunction) {
-    let connection;
-    try {
-        connection = getConnection();
-    } catch {
-        connection = await createConnection()
+    const repository = getConnection().getRepository(Search);
+    const options = {
+        where: {},
+        relations: []
+    };
+    if(req.query.status !== undefined) {
+        options.where = {
+            status: req.query.status
+        }
     }
-    table = await connection.manager.find(Search)
-    res.send(table)
+    if(req.query.relations !== undefined) {
+        const rel = req.query.relations;
+        if(Array.isArray(rel)) {
+            res.status(400)
+            res.send('many relations doesnt support now')
+            return
+            // @ts-ignore
+            options.relations = rel as string[]
+        } else {
+            if (rel !== 'participants') {
+                res.status(400)
+                res.send('Just participants relation supports for now')
+                return
+            }
+
+            // @ts-ignore
+            options.relations.push(rel as string)
+        }
+    }
+
+
+    const data = await repository.find(options)
+    const mapped = data.map(search => {
+        const _search = {
+            ...search,
+            photo: search.photo.toString()
+        }
+        if(search.participants){
+            const user = req.user as User;
+            search.participants = search.participants.filter((participant)=> participant.userId === user.id)
+        }
+        return _search
+    })
+    res.send(mapped)
 }
 
 export async function getSearchMiddleWare(req: Request, res: Response, next: NextFunction) {
@@ -79,7 +117,7 @@ export async function createNewSearch(req: Request, res: Response, next: NextFun
     newSearch.coordLong = req.body.coordinates.longitude;
     newSearch.address = req.body.address;
     newSearch.info = req.body.info;
-    newSearch.photo = req.body.photo;
+    newSearch.photo = Buffer.from(req.body.photo);
 
     const repository = getConnection().getRepository(Search);
     await repository.save(newSearch);
@@ -90,6 +128,9 @@ export async function createNewSearch(req: Request, res: Response, next: NextFun
 export async function getSearch (req: Request, res: Response, next: NextFunction) {
     const repository = getConnection().getRepository(Search);
     const searchInfo = await repository.findOne(req.params.id);
-    res.send(searchInfo)
-    console.log(req)
+    const _searchInfo = {
+        ...searchInfo,
+        photo: searchInfo?.photo.toString()
+    }
+    res.send(_searchInfo)
 }
