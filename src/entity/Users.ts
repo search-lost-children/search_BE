@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typ
 import Roles from "../enums/roles.enum";
 import Event from "./Event";
 import Coordinates from "./Coordinates";
+import {Participant} from "./Participant";
 
 
 @Entity()
@@ -40,6 +41,9 @@ export class User{
 
     @OneToMany(() => Coordinates, coordinates => coordinates.user)
     coordinates: Coordinates[];
+
+    @OneToMany(() => Participant, participient => participient.user)
+    participations: Participant[]
 
 }
 

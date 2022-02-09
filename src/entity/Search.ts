@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typ
 import Coordinator from "./Coordinator";
 import Event from "./Event";
 import Coordinates from "./Coordinates";
+import {Participant} from "./Participant";
 
 @Entity()
 export class Search extends BaseEntity{
@@ -52,6 +53,9 @@ export class Search extends BaseEntity{
 
     @OneToMany(() => Coordinates, coordinates => coordinates.search)
     coordinates: Coordinates[];
+
+    @OneToMany(() => Participant, participants => participants.search)
+    participants: Participant[]
 }
 
 export default Search
