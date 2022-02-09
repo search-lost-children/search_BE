@@ -8,11 +8,14 @@ export class Search1639503229142 implements MigrationInterface {
         await queryRunner.createTable(new Table({
             name: tableName,
             columns: [
-                {
-                    name: "id",
-                    type: "int",
-                    isPrimary: true
-                },
+                new TableColumn({
+                    name: 'id',
+                    type: 'integer',
+                    isPrimary: true,
+                    isGenerated: true,
+                    isUnique: true,
+                    generationStrategy: 'increment'
+                }),
                 {
                     name: "date",
                     type: "date",
