@@ -44,7 +44,7 @@ async function authGuard(req: Request, res: Response, next: NextFunction) {
     try {
         const decoded = decode(token);
         if (decoded.isAuthenticated) {
-            const user = await repository.findOne(decoded.login)
+            const user = await repository.findOne({login: decoded.login})
             req.user = user
             return next()
         } else {

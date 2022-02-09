@@ -3,6 +3,7 @@ import Coordinator from "./Coordinator";
 import Event from "./Event";
 import Coordinates from "./Coordinates";
 import {Participant} from "./Participant";
+import SearchStates from "../enums/searchStates.enum";
 
 @Entity()
 export class Search extends BaseEntity{
@@ -50,6 +51,13 @@ export class Search extends BaseEntity{
         nullable: true
     })
     photo: Buffer;
+
+    @Column({
+        type: 'enum',
+        enum: SearchStates,
+        default: SearchStates.active
+    })
+    status: SearchStates;
 
     @OneToMany(() => Coordinates, coordinates => coordinates.search)
     coordinates: Coordinates[];
