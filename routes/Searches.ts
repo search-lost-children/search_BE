@@ -4,9 +4,11 @@ const router = express.Router();
 import coordinatorsRouter from './Coordinators'
 import eventRouter from './Event'
 import participantsRouter from './Participants'
+import {adminOnly} from "../controllers/autorization";
+
 
 router.get('/',getSearches);
-router.post('/', createNewSearch);
+router.post('/',adminOnly, createNewSearch);
 router.get('/:id', getSearch);
 //api/v1/searches/1/coordinators
 router.use('/:id/coordinators', getSearchMiddleWare, coordinatorsRouter);
