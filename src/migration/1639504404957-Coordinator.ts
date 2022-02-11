@@ -35,12 +35,6 @@ export class Coordinators1639504404957 implements MigrationInterface {
             referencedTableName: searchTableName,
             onDelete: "CASCADE"
         }));
-
-        // await queryRunner.createIndex("question", new TableIndex({
-        //     name: "IDX_QUESTION_NAME",
-        //     columnNames: ["name"]
-        // }));
-
     }
 
     async down(queryRunner: QueryRunner): Promise<void> {
