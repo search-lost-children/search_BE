@@ -6,7 +6,10 @@ const schema = Joi.object({
         .required(),
     locationType: Joi.string()
         .required(),
-    location: Joi.array().items(Joi.string())
+    location: Joi.array().items(Joi.object({
+        lat: Joi.number(),
+        lng: Joi.number()
+    }))
         .required(),
     executorId: Joi.string()
         .required(),
