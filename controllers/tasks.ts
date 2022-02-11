@@ -21,11 +21,7 @@ export async function createNewTask(req: Request, res: Response, next: NextFunct
     task.search = req.search as Search
     task.location = body.location
     task.executorId = body.executorId
-    try {
-        await repository.save(task)
-    } catch (e) {
-        debugger
-    }
+    await repository.save(task)
     res.send (task)
 }
 
@@ -33,7 +29,6 @@ export async function getSearchTasks (req: Request, res: Response, next: NextFun
     const repository = getConnection().getRepository(Task);
     const tableInfo = await repository.find({ where: { search: req.search} });
     res.send(tableInfo)
-    console.log(req)
 }
 
 
