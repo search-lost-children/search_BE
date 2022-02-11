@@ -4,7 +4,7 @@ const router = express.Router();
 import coordinatorsRouter from './Coordinators'
 import eventRouter from './Event'
 import participantsRouter from './Participants'
-import tasks from "./tasks";
+import tasks from "./Tasks";
 
 router.get('/',getSearches);
 router.post('/', createNewSearch);
