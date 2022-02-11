@@ -21,4 +21,4 @@ export class Participant extends BaseEntity{
     @Column()
     userId:number
 }
-export default Event
+export default Participant
