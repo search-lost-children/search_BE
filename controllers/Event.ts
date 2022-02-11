@@ -13,14 +13,12 @@ export async function createEvent (req: Request, res: Response, next: NextFuncti
         res.send(validation.error)
         return
     }
-    // const user = req.user as User;
+    const user = req.user as User;
     const search = req.search as Search;
     const newEvent = new Event();
 
     newEvent.priority = req.body.priority;
     newEvent.time = req.body.time;
-    // fixme remove after AUTH is fixed
-    const user = await getConnection().getRepository(User).findOneOrFail(1)
     newEvent.author = user;
     newEvent.search = search;
     newEvent.description = req.body.description;
@@ -30,7 +28,7 @@ export async function createEvent (req: Request, res: Response, next: NextFuncti
     res.send(newEvent);
 }
 
-export async function getEvent (req: Request, res: Response, next: NextFunction) {
+export async function getEvents (req: Request, res: Response, next: NextFunction) {
         const repository = getConnection().getRepository(Event);
     const search = req.search as Search;
 
