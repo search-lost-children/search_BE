@@ -66,7 +66,7 @@ async function authGuard(req: Request, res: Response, next: NextFunction) {
 
 async function adminOnly(req: Request, res: Response, next: NextFunction) {
      const user = req.user as User
-    if( user.role === 'admin'){
+    if( user.role !== 'admin'){
         res.sendStatus(401)
     }else{
        return next()
