@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from "typeorm";
 import Coordinator from "./Coordinator";
+import Task from "./Task";
 import Event from "./Event";
 import Coordinates from "./Coordinates";
 import {Participant} from "./Participant";
@@ -64,6 +65,9 @@ export class Search extends BaseEntity{
 
     @OneToMany(() => Participant, participants => participants.search)
     participants: Participant[]
+
+    @OneToMany(() => Task, task => task.search)
+    tasks: Task[];
 }
 
 export default Search

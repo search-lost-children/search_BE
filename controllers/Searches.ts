@@ -3,34 +3,7 @@ import {createConnection, getConnection} from "typeorm"
 import idValidationSchema from "../schemas/SearchesIdValidation";
 import Search from "../src/entity/Search";
 import newSearchValidation from "../schemas/NewSearch";
-import Event from "../src/entity/Event";
-import {isArray} from "util";
 import User from "../src/entity/Users";
-
-let table: any[] = [{
-    "id": 1,
-    'firstName': 'Ada',
-    'lastName': 'Lovelace',
-    'status': 'в процессе',
-},
-    {
-        "id": 2,
-        'firstName': 'Grace',
-        'lastName': 'Hopper',
-        'status': 'завершен',
-    },
-    {
-        "id": 3,
-        'firstName': 'Margaret',
-        'lastName': 'Hamilton',
-        'status': 'завершен',
-    },
-    {
-        "id": 4,
-        'firstName': 'Joan',
-        'lastName': 'Clarke',
-        'status': 'завершен',
-    }]
 
 export async function getSearches(req: Request, res: Response, next: NextFunction) {
     const repository = getConnection().getRepository(Search);
@@ -38,14 +11,14 @@ export async function getSearches(req: Request, res: Response, next: NextFunctio
         where: {},
         relations: []
     };
-    if(req.query.status !== undefined) {
+    if (req.query.status !== undefined) {
         options.where = {
             status: req.query.status
         }
     }
-    if(req.query.relations !== undefined) {
+    if (req.query.relations !== undefined) {
         const rel = req.query.relations;
-        if(Array.isArray(rel)) {
+        if (Array.isArray(rel)) {
             res.status(400)
             res.send('many relations doesnt support now')
             return
@@ -70,9 +43,9 @@ export async function getSearches(req: Request, res: Response, next: NextFunctio
             ...search,
             photo: search.photo.toString()
         }
-        if(search.participants){
+        if (search.participants) {
             const user = req.user as User;
-            search.participants = search.participants.filter((participant)=> participant.userId === user.id)
+            search.participants = search.participants.filter((participant) => participant.userId === user.id)
         }
         return _search
     })
@@ -125,7 +98,7 @@ export async function createNewSearch(req: Request, res: Response, next: NextFun
     res.send(newSearch);
 }
 
-export async function getSearch (req: Request, res: Response, next: NextFunction) {
+export async function getSearch(req: Request, res: Response, next: NextFunction) {
     const repository = getConnection().getRepository(Search);
     const searchInfo = await repository.findOne(req.params.id);
     const _searchInfo = {
@@ -133,4 +106,12 @@ export async function getSearch (req: Request, res: Response, next: NextFunction
         photo: searchInfo?.photo?.toString()
     }
     res.send(_searchInfo)
+}
+
+export async function updateSearch(req: Request, res: Response, next: NextFunction) {
+    const repository = getConnection().getRepository(Search);
+    const search = req.search as Search;
+    search.status = req.body.status;
+    await repository.save(search);
+    res.send()
 }

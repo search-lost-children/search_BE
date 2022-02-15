@@ -1,9 +1,9 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {} from "../controllers/Coordinates";
+import {getAllCoordinates, getMyCoordinates, postMyCoordinates} from "../controllers/Coordinates";
 const router = express.Router();
-import {coordinatesDelivery} from "../controllers/Coordinates";
 
-router.post('/me', coordinatesDelivery)
-
+router.post('/me', getMyCoordinates)
+router.get('/me', postMyCoordinates)
+router.get('/', getAllCoordinates)
 
 export default router
