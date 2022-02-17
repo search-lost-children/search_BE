@@ -69,5 +69,4 @@ export class Search extends BaseEntity{
     @OneToMany(() => Task, task => task.search)
     tasks: Task[];
 }
-
 export default Search
