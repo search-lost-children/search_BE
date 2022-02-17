@@ -8,11 +8,14 @@ export class Task1642697877498 implements MigrationInterface {
         await queryRunner.createTable(new Table({
             name: tableName,
             columns: [
-                {
-                    name: "number",
-                    type: "int",
-                    isPrimary: true
-                },
+                new TableColumn({
+                    name: 'id',
+                    type: 'integer',
+                    isPrimary: true,
+                    isGenerated: true,
+                    isUnique: true,
+                    generationStrategy: 'increment'
+                }),
                 {
                     name: "taskType",
                     type: "varchar",
@@ -31,7 +34,7 @@ export class Task1642697877498 implements MigrationInterface {
                 },
                 {
                     name: "searchId",
-                    type: "int"
+                    type: "integer"
                 }
 
             ]

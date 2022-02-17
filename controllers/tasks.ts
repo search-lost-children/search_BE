@@ -19,7 +19,7 @@ export async function createNewTask(req: Request, res: Response, next: NextFunct
     task.locationType = body.locationType
     task.taskType= body.taskType
     task.search = req.search as Search
-    task.location = body.location
+    task.location = JSON.stringify(body.location)
     task.executorId = body.executorId
     await repository.save(task)
     res.send (task)

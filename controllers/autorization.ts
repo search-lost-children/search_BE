@@ -2,8 +2,8 @@ import jwt, {JwtPayload} from 'jsonwebtoken';
 import {NextFunction, Request, Response} from "express";
 import {getConnection, QueryFailedError} from "typeorm";
 import User from "../src/entity/Users";
-import Users from "../src/entity/Users";
 import Encrypt from "../services/hash";
+import Search from "../src/entity/Search";
 
 const jwtKey = 'asdasdqwdseragasdfzxfvweg'
 
@@ -35,9 +35,18 @@ async function auth(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+export async function get_user (req: Request, res: Response, next: NextFunction) {
+    const user  = {
+        ...req.user,
+        password: undefined
+    }
+    res.send(user)
+
+}
+
 async function authGuard(req: Request, res: Response, next: NextFunction) {
     const token = req.header('Authorization');
-    const repository = getConnection().getRepository(Users);
+    const repository = getConnection().getRepository(User);
     if (!token || token === 'null') {
         return res.sendStatus(401);
     }
@@ -55,7 +64,17 @@ async function authGuard(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function adminOnly(req: Request, res: Response, next: NextFunction) {
+     const user = req.user as User
+    if( user.role !== 'admin'){
+        res.sendStatus(401)
+    }else{
+       return next()
+    }
+
+}
 export {
     authGuard,
-    auth
+    auth,
+    adminOnly
 }
