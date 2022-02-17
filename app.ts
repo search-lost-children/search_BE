@@ -12,9 +12,6 @@ app.use(logger('dev'));
 app.use(express.json({ limit:'50mb'}));
 app.use(express.urlencoded({ extended: false , limit:'50mb'}));
 app.use(cookieParser());
-// app.use(bodyParser.json({limit:'50mb'}))
-// app.use(bodyParser.urlencoded({limit:'50mb'}))
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1', v1router)
 
 export default app;
