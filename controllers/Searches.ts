@@ -103,7 +103,7 @@ export async function getSearch(req: Request, res: Response, next: NextFunction)
     const searchInfo = await repository.findOne(req.params.id);
     const _searchInfo = {
         ...searchInfo,
-        photo: searchInfo?.photo.toString()
+        photo: searchInfo?.photo?.toString()
     }
     res.send(_searchInfo)
 }

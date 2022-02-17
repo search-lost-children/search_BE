@@ -1,11 +1,10 @@
 import {MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey} from "typeorm";
 import Roles from "../enums/roles.enum";
 
+
 const tableName = "coordinates"
 const searchTableName = "search"
 const userTableName = "user"
-
-
 
 
 export class Coordinates1643909424799 implements MigrationInterface {
@@ -79,7 +78,6 @@ export class Coordinates1643909424799 implements MigrationInterface {
                 if (foreignKey2) {
                     await queryRunner.dropForeignKey(tableName, foreignKey2);
                 }
-
                 await queryRunner.dropTable(tableName);
             }
     }
