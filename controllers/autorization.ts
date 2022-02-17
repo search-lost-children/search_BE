@@ -3,7 +3,6 @@ import {NextFunction, Request, Response} from "express";
 import {getConnection, QueryFailedError} from "typeorm";
 import User from "../src/entity/Users";
 import Encrypt from "../services/hash";
-import Search from "../src/entity/Search";
 
 const jwtKey = 'asdasdqwdseragasdfzxfvweg'
 
