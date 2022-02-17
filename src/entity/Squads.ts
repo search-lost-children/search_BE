@@ -1,19 +1,19 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, OneToOne} from "typeorm";
+import {Participant} from "./Participant";
+import Coordinator from "./Coordinator";
 
 
 @Entity()
-export class Squads extends BaseEntity{
+export class Squad extends BaseEntity{
 
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    Name: string;
+    @OneToOne(() => Coordinator, coordinator =>coordinator.squad)
+    coordinator: Coordinator;
 
-
-
-
+    @OneToMany(() => Participant, participants => participants.squad)
+    participants: Participant[]
 
 }
-
-export default Squads
+export default Squad

@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, OneToOne} from "typeorm";
 import Search from "./Search";
+import Squad from "./Squads";
 
 
 
@@ -20,6 +21,9 @@ export class Coordinator extends BaseEntity{
 
     @ManyToOne(() => Search, search => search.coordinators)
     search: Search;
+
+    @OneToOne(() => Squad, squad => squad.coordinator)
+    squad:Squad
 }
 
 export default Coordinator
