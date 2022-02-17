@@ -1,9 +1,9 @@
 import {Request, Response, NextFunction} from "express";
-import tableSchema from "../schemas/Coordinators";
-import {getConnection} from "typeorm";
+import {getConnection, getCustomRepository} from "typeorm";
 import Coordinates from "../src/entity/Coordinates";
 import Search from "../src/entity/Search";
 import User from "../src/entity/Users";
+import {CoordinatesRepository} from "../src/repos/CoordinatesRepository"
 
 export async function postMyCoordinates (req:Request, res:Response, next:NextFunction){
     const repository = getConnection().getRepository(Coordinates);
@@ -28,23 +28,18 @@ export async function getMyCoordinates (req:Request, res:Response, next:NextFunc
         where: {
             user: { id: user.id },
         },
-        relations: ["user"],
         select: ['lng', 'lat', 'time'],
     });
-
     res.send(searchDataByUserId)
 }
 
 export async function getAllCoordinates (req:Request, res:Response, next:NextFunction){
-    const repository = getConnection().getRepository(Coordinates);
     const search = req.search as Search
-    let searchDataBySearchId = await repository.find({
-        where: {
-            Search: { id: search.id },
-        },
-        relations: ["Search"],
-    });
-    res.send(searchDataBySearchId)
+    const userRepository = getCustomRepository(CoordinatesRepository);
+    const result = await userRepository.findBySearch(search.id);
+
+
+    res.send(result)
 }
 
 
