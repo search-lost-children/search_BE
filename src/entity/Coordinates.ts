@@ -9,10 +9,10 @@ export class Coordinates extends BaseEntity{
     id: number;
 
     @Column()
-    lng: string;
+    lng: number;
 
     @Column()
-    lat: string;
+    lat: number;
 
     @Column()
     searchId: number;

@@ -37,8 +37,6 @@ export async function getAllCoordinates (req:Request, res:Response, next:NextFun
     const search = req.search as Search
     const userRepository = getCustomRepository(CoordinatesRepository);
     const result = await userRepository.findBySearch(search.id);
-
-
     res.send(result)
 }
 
