@@ -45,7 +45,7 @@ export async function getSearches(req: Request, res: Response, next: NextFunctio
         }
         if (search.participants) {
             const user = req.user as User;
-            search.participants = search.participants.filter((participant) => participant.userId === user.id)
+            _search.participants = search.participants.filter((participant) => participant.userId === user.id)
         }
         return _search
     })

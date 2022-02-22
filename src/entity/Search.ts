@@ -30,12 +30,12 @@ export class Search extends BaseEntity{
     @Column({
         nullable: true
     })
-    coordLat:string;
+    coordLat:number;
 
     @Column({
         nullable: true
     })
-    coordLong:string;
+    coordLong:number;
 
     @Column({
         nullable: true
