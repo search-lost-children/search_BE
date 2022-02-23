@@ -5,6 +5,7 @@ import Event from "./Event";
 import Coordinates from "./Coordinates";
 import {Participant} from "./Participant";
 import SearchStates from "../enums/searchStates.enum";
+import Squad from "./Squads";
 
 @Entity()
 export class Search extends BaseEntity{
@@ -68,6 +69,9 @@ export class Search extends BaseEntity{
 
     @OneToMany(() => Task, task => task.search)
     tasks: Task[];
+
+    @OneToMany(() => Squad, squad => squad.search)
+    squads: Squad[];
 }
 
 export default Search

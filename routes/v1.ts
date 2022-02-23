@@ -5,7 +5,7 @@ import {authGuard} from '../controllers/autorization'
 import auth from "./Auth"
 import reg from "./Registration"
 
-import searches from './Searches'
+import searches from './searches'
 
 router.use('/auth', auth)
 router.use('/registration', reg)
