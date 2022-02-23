@@ -34,13 +34,13 @@ export class squads1645116424222 implements MigrationInterface {
             columnNames: ['coordinatorId'],
             referencedColumnNames: ['id'],
             referencedTableName: 'coordinator',
-            onDelete: 'CASCADE'
+            onDelete: 'SET NULL'
         }))
         await queryRunner.createForeignKey('participant', new TableForeignKey({
             columnNames: ['squadId'],
             referencedColumnNames: ['id'],
             referencedTableName: 'squad',
-            onDelete: 'CASCADE'
+            onDelete: 'SET NULL'
         }))
 
     }

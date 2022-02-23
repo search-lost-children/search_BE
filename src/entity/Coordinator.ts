@@ -21,7 +21,8 @@ export class Coordinator extends BaseEntity{
     @ManyToOne(() => User, user => user.coordinatorIn)
     user: User;
 
-
+    @Column()
+    squadId: number;
     @OneToOne(() => Squad, squad => squad.coordinator)
     squad:Squad
 }
