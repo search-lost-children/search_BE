@@ -45,7 +45,7 @@ export async function getSearches(req: Request, res: Response, next: NextFunctio
         }
         if (search.participants) {
             const user = req.user as User;
-            search.participants = search.participants.filter((participant) => participant.userId === user.id)
+            _search.participants = search.participants.filter((participant) => participant.userId === user.id)
         }
         return _search
     })
@@ -103,7 +103,7 @@ export async function getSearch(req: Request, res: Response, next: NextFunction)
     const searchInfo = await repository.findOne(req.params.id);
     const _searchInfo = {
         ...searchInfo,
-        photo: searchInfo?.photo.toString()
+        photo: searchInfo?.photo?.toString()
     }
     res.send(_searchInfo)
 }
