@@ -1,7 +1,8 @@
-import {Entity, Column, BaseEntity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, Column, BaseEntity, ManyToOne, PrimaryGeneratedColumn, OneToMany} from "typeorm";
 import User from "./Users";
 import Search from "./Search";
 import Squad from "./Squads";
+import Task from "./Task";
 
 @Entity()
 export class Participant extends BaseEntity{
@@ -24,5 +25,8 @@ export class Participant extends BaseEntity{
 
     @ManyToOne(() => Squad, squad => squad.participants)
     squad:Squad
+
+    @OneToMany(() => Task, task => task.participant)
+    tasks: Task[]
 }
 export default Participant

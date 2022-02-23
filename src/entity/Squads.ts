@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne
 import {Participant} from "./Participant";
 import Coordinator from "./Coordinator";
 import Search from "./Search";
+import Task from "./Task";
 
 
 @Entity()
@@ -23,5 +24,8 @@ export class Squad extends BaseEntity{
     searchId: number;
     @ManyToOne(() => Search, search => search.squads)
     search:Search;
+
+    @OneToMany(() => Task, task => task.squad)
+    tasks: Task[];
 }
 export default Squad

@@ -11,7 +11,7 @@ const schema = Joi.object({
         lng: Joi.number()
     }))
         .required(),
-    executorId: Joi.string()
+    executorId: Joi.number()
         .required(),
 })
 export default schema;

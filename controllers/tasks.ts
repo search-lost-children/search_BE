@@ -3,6 +3,9 @@ import schema from "../validationSchemas/newTask"
 import {getConnection} from "typeorm";
 import Task from "../src/entity/Task";
 import Search from "../src/entity/Search";
+import TaskTypes from "../src/enums/taskTypes.enum";
+// require('express-async-errors');
+
 
 export async function createNewTask(req: Request, res: Response, next: NextFunction) {
     const result = schema.validate(req.body);
@@ -20,7 +23,11 @@ export async function createNewTask(req: Request, res: Response, next: NextFunct
     task.taskType= body.taskType
     task.search = req.search as Search
     task.location = JSON.stringify(body.location)
-    task.executorId = body.executorId
+    if(body.taskType === TaskTypes.group) {
+        task.squadId = body.executorId
+    } else {
+        task.participantId = body.executorId
+    }
     await repository.save(task)
     res.send (task)
 }
