@@ -3,6 +3,7 @@ import Roles from "../enums/roles.enum";
 import Event from "./Event";
 import Coordinates from "./Coordinates";
 import {Participant} from "./Participant";
+import Coordinator from "./Coordinator";
 
 
 @Entity()
@@ -44,6 +45,9 @@ export class User{
 
     @OneToMany(() => Participant, participient => participient.user)
     participations: Participant[]
+
+    @OneToMany(() => Coordinator, coordinator => coordinator.user)
+    coordinatorIn: Coordinator[]
 
 }
 

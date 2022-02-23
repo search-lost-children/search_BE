@@ -3,42 +3,36 @@ import tableSchema from "../schemas/Coordinators";
 import {getConnection} from "typeorm";
 import Coordinator from "../src/entity/Coordinator";
 import Search from "../src/entity/Search";
+import User from "../src/entity/Users";
+import Participant from "../src/entity/Participant";
 
-
-export async function getTableInfo(req:Request, res:Response, next:NextFunction){
+export async function getCoordinators(req:Request, res:Response, next:NextFunction){
+    const search = req.search as Search;
     const repository = getConnection().getRepository(Coordinator);
-    const tableInfo = await repository.find();
-    res.send(tableInfo)
-    console.log(req)
+    const coordinators = await repository.find({where: {search:search}, relations: ['user']});
+    const mappedCoordinators = coordinators.map(coord => ({
+        ...coord,
+        user: {
+            firstName: coord.user.firstName,
+            lastName: coord.user.lastName,
+            phoneNumber: coord.user.phoneNumber
+        }
+    }))
+    res.send(mappedCoordinators)
 }
 
-export async function postTableInfo(req:Request, res:Response, next:NextFunction){
+export async function addCoordinator (req:Request, res:Response, next:NextFunction){
+    const search =req.search as Search;
     const repository = getConnection().getRepository(Coordinator);
-    const body = req.body
-    await repository.save(body)
-    res.send(body)
-}
-
-export async function deleteCoordinator(req:Request, res:Response, next:NextFunction){
-    const repository = getConnection().getRepository(Coordinator);
-    await getConnection()
-    await repository.createQueryBuilder().delete().from(Coordinator).where("id = :coordinatorId", { coordinatorId: req.params.coordinatorId }).execute();
+    const coordinator = new Coordinator();
+    coordinator.search = search;
+    coordinator.user = (await getConnection().getRepository(Participant).findOneOrFail({where: {id: req.body.participantId}, relations:['user']})).user
+    await repository.save(coordinator)
     res.send()
 }
 
-
-
-
-
-//
-// async function tableData (req:Request, res:Response, next:NextFunction) {
-//
-//     const validationResult = tableSchema.validate(req.body)
-//     if(validationResult.error){
-//         res.statusCode = 400
-//         res.send(validationResult.error)
-//         return
-//     }
-//     res.send(validationResult.value)
-// }
-
+export async function deleteCoordinator(req:Request, res:Response, next:NextFunction){
+    const repository = await getConnection().getRepository(Coordinator);
+    await repository.createQueryBuilder().delete().from(Coordinator).where("id = :coordinatorId", { coordinatorId: req.params.coordinatorId }).execute();
+    res.send()
+}

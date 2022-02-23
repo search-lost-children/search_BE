@@ -9,11 +9,14 @@ export class Coordinators1639504404957 implements MigrationInterface {
         await queryRunner.createTable(new Table({
             name: tableName,
             columns: [
-                {
-                    name: "id",
-                    type: "int",
-                    isPrimary: true
-                },
+                new TableColumn({
+                    name: 'id',
+                    type: 'integer',
+                    isPrimary: true,
+                    isGenerated: true,
+                    isUnique: true,
+                    generationStrategy: 'increment'
+                }),
                 {
                     name: "searchId",
                     type: "int",
